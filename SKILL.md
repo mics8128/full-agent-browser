@@ -42,12 +42,16 @@ agent-browser --cdp 9222 snapshot -i  # Check result
 
 When you must ask for help:
 
+> **重要：ngrok 要分享的是 VNC 畫面 PORT (通常是 18922)，不是 dev tool 9222！**
+> - `18922` = VNC 畫面 (使用者用瀏覽器觀看操作)
+> - `9222` = Chrome DevTools Protocol (內部自動化用，不要分享給使用者)
+
 ```bash
 # Known Google email - use OAuth
-ngrok http 9777 --oauth=google --oauth-allow-email=user@example.com
+ngrok http 18922 --oauth=google --oauth-allow-email=user@example.com
 
 # Unknown email - use random basic auth and embed in URL
-USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 9777 --basic-auth="$USER:$PASS"
+USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 18922 --basic-auth="$USER:$PASS"
 # Share: https://$USER:$PASS@<ngrok-url>
 ```
 
