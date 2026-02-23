@@ -10,21 +10,46 @@ allowed-tools: Bash(npx agent-browser:*), Bash(agent-browser:*)
 
 Every browser automation follows this pattern:
 
-1. **Navigate**: `agent-browser open <url>`
-2. **Snapshot**: `agent-browser snapshot -i` (get element refs like `@e1`, `@e2`)
-3. **Interact**: Use refs to click, fill, select
-4. **Re-snapshot**: After navigation or DOM changes, get fresh refs
+1. **Start Docker**: `docker-compose up -d` (ensure Chrome is running)
+2. **Connect**: `agent-browser --cdp 9222 open <url>` (connect via CDP)
+3. **Snapshot**: `agent-browser --cdp 9222 snapshot -i` (get element refs like `@e1`, `@e2`)
+4. **Interact**: Use refs to click, fill, select
+5. **Re-snapshot**: After navigation or DOM changes, get fresh refs
+6. **Human Help**: Only after exhausting all automated approaches (see below)
 
 ```bash
-agent-browser open https://example.com/form
-agent-browser snapshot -i
+# Start Docker environment
+docker-compose up -d
+
+# Connect and automate
+agent-browser --cdp 9222 open https://example.com/form
+agent-browser --cdp 9222 snapshot -i
 # Output: @e1 [input type="email"], @e2 [input type="password"], @e3 [button] "Submit"
 
-agent-browser fill @e1 "user@example.com"
-agent-browser fill @e2 "password123"
-agent-browser click @e3
-agent-browser wait --load networkidle
-agent-browser snapshot -i  # Check result
+agent-browser --cdp 9222 fill @e1 "user@example.com"
+agent-browser --cdp 9222 fill @e2 "password123"
+agent-browser --cdp 9222 click @e3
+agent-browser --cdp 9222 wait --load networkidle
+agent-browser --cdp 9222 snapshot -i  # Check result
+```
+
+### When to Request Human Assistance
+
+**Try everything first.** Only request human help after:
+- Multiple automation attempts have failed
+- The site has anti-bot protection that cannot be bypassed
+- Complex CAPTCHA or 2FA that requires human verification
+- Login requires email/SMS verification codes
+
+When you must ask for help:
+
+```bash
+# Known Google email - use OAuth
+ngrok http 3000 --oauth=google --oauth-allow-email=user@example.com
+
+# Unknown email - use random basic auth and embed in URL
+USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 3000 --basic-auth="$USER:$PASS"
+# Share: https://$USER:$PASS@<ngrok-url>
 ```
 
 ## Command Chaining
