@@ -2,17 +2,19 @@ version: '3'
 services:
   chromium:
     build: .
-    container_name: agent_browser_env
+    container_name: full-agent-browser
     security_opt:
       - seccomp:unconfined
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Taipei
-      - CHROME_CLI=--remote-debugging-port=18654 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
+      - CHROME_CLI=--remote-debugging-port=9666 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
+      - CUSTOM_PORT=18922
+      - DISABLE_IPV6
     volumes:
       - ./browser-config:/config
     ports:
-      - "9777:3000"
+      - "18922:18922"
       - "9222:9222"
     shm_size: "2gb"
