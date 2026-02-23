@@ -1,6 +1,6 @@
 version: '3'
 services:
-  agent-browser:
+  chromium:
     build: .
     container_name: agent_browser_env
     security_opt:
