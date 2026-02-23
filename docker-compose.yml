@@ -9,11 +9,10 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Taipei
-      - CHROME_CLI=--remote-debugging-port=9222 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
+      - CHROME_CLI=--remote-debugging-port=18654 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
     volumes:
       - ./browser-config:/config
     ports:
-      - "3000:3000"
-      - "3001:3001"
-      - "9222:9223"
+      - "9777:3000"
+      - "9222:9222"
     shm_size: "2gb"

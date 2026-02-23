@@ -44,10 +44,10 @@ When you must ask for help:
 
 ```bash
 # Known Google email - use OAuth
-ngrok http 3000 --oauth=google --oauth-allow-email=user@example.com
+ngrok http 9777 --oauth=google --oauth-allow-email=user@example.com
 
 # Unknown email - use random basic auth and embed in URL
-USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 3000 --basic-auth="$USER:$PASS"
+USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 9777 --basic-auth="$USER:$PASS"
 # Share: https://$USER:$PASS@<ngrok-url>
 ```
 
