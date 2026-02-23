@@ -1,20 +1,19 @@
 version: '3'
 services:
   agent-browser:
-    image: lscr.io/linuxserver/brave:latest
+    build: .
     container_name: agent_browser_env
     security_opt:
-      - seccomp:unconfined # 確保 Chrome Sandbox 在 Docker 內正常運作
+      - seccomp:unconfined
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Taipei
-      - PIXELFLUX_WAYLAND=true
-      - CUSTOM_FLAGS=--remote-debugging-port=9222 --remote-debugging-address=0.0.0.0 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
+      - CHROME_CLI=--remote-debugging-port=9222 --disable-blink-features=AutomationControlled --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
     volumes:
-      # 將整個設定檔與 Cookie 持久化綁定到本地端
-      - ./browser-config:/config 
+      - ./browser-config:/config
     ports:
-      - "3000:3000" # 人類介入用的 Web GUI 介面 (直接看到瀏覽器畫面)
-      - "9222:9222" # 給 agent-browser 遠端連線的 CDP Port
-    shm_size: "2gb" # 避免網頁崩潰
+      - "3000:3000"
+      - "3001:3001"
+      - "9222:9223"
+    shm_size: "2gb"
