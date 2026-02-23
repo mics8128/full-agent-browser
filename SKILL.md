@@ -48,11 +48,11 @@ When you must ask for help:
 
 ```bash
 # Known Google email - use OAuth
-ngrok http 18922 --oauth=google --oauth-allow-email=user@example.com
+timeout 300 ngrok http 18922 --oauth=google --oauth-allow-email=user@example.com
 
-# Unknown email - use random basic auth and embed in URL
-USER=$(openssl rand -hex 4) && PASS=$(openssl rand -hex 8) && ngrok http 18922 --basic-auth="$USER:$PASS"
-# Share: https://$USER:$PASS@<ngrok-url>
+# No auth - auto-close after 5 minutes
+timeout 300 ngrok http 18922
+# Share: https://<ngrok-url>
 ```
 
 ## Command Chaining
