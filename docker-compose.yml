@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Taipei
-      - CHROME_CLI=--remote-debugging-port=9666 --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
+      - CHROME_CLI=--remote-debugging-port=9666 --hide-crash-restore-bubble --disable-infobars --start-maximized --window-position=0,0 --window-size=1280,800
       - CUSTOM_PORT=18922
       - DISABLE_IPV6
     volumes:
